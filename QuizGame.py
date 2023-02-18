@@ -27,13 +27,14 @@ def quiz(qandA, inner_exit, points, right_ans, user_in):
             if (user_in.lower() == 'q'):
                 points = 0
                 print('Exiting to main menu!')
-                return
+                return points
             elif (user_in == str(right_ans)):
                 points += 1
                 print('Correct | Points: {points}\n'.format(points = points))
             else:
                 print('Incorrect | Points: {points}\n'.format(points = points))
         results(qandA, points)
+        return points
 
 def show_score(points):
     print("Total Points: {points}".format(points = points))
@@ -45,7 +46,7 @@ def play(exit):
             exit = True
             return
         else:
-            quiz(subjects[int(category) - 1], exit, score, correct_ans, user_ans)
+            return quiz(subjects[int(category) - 1], exit, score, correct_ans, user_ans)
 
 def instructions():
         print('*********************************************************************************************')
@@ -113,5 +114,5 @@ while(exit == False):
     elif(option == 2):
         show_score(score)
     elif(option == 3):
-        play(exit)
+        score = play(exit)
     else: print("Please select one of the options above.")

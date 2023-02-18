@@ -1,33 +1,4 @@
-def quiz(qandA, exit, points, right_ans, user_in):    
-    for i in range(len(qandA)):
-
-        #this stores the index of the right answer plus 1
-        if (qandA[i][1] in qandA[i][2]):
-            right_ans = qandA[i][2].index(qandA[i][1]) + 1
-
-        #this tells you the question number
-        print("Question {question_number}".format(question_number = i + 1))
-
-        #this is the statement requiring user input
-        user_in = input('{question}:\n{answer_options}\nAnswer: '.format(question = qandA[i][0], answer_options = qandA[i][2]))
-        
-        #this is the condition to end the game prematurely
-        if (user_in.lower() == 'exit'):
-            exit = True
-            print('Bye!')
-            
-        #we compare the user input to the string version of right_ans
-        if (user_in == str(right_ans)):
-            points += 1
-            print('Correct | Points: {points}\n'.format(points = points))
-        else:
-            print('Incorrect | Points: {points}\n'.format(points = points))
-        
-        print(points/len(qandA)*100)
-        
-    #this outputs the reults of the quiz
-    results(qandA, points)
-
+#this outputs the reults of the quiz
 def results(qandA, points):
     if (points/len(qandA)*100 >= 90.0):
         print('Congrats, you got an A')
@@ -38,6 +9,40 @@ def results(qandA, points):
     elif (points/len(qandA)*100 < 70.0):
         print("It seems like you didn't study at all. Try again next time.")
 
+#this is the condition to end the game prematurely
+def exit_condition(user_in):
+    if (user_in.lower() == 'exit'):
+            exit = True
+            print('Bye!')
+    #return
+        
+def quiz(qandA, exit, points, right_ans, user_in):    
+    while(exit == False):
+        for i in range(len(qandA)):
+
+            #this stores the index of the right answer plus 1
+            if (qandA[i][1] in qandA[i][2]):
+                right_ans = qandA[i][2].index(qandA[i][1]) + 1
+
+            #this tells you the question number
+            print("Question {question_number}".format(question_number = i + 1))
+
+            #this is the statement requiring user input
+            user_in = input('{question}:\n{answer_options}\nAnswer: '.format(question = qandA[i][0], answer_options = qandA[i][2]))
+            
+            #this is the condition to end the game prematurely
+            exit_condition(user_in, exit)
+                
+            #we compare the user input to the string version of right_ans
+            if (user_in == str(right_ans)):
+                points += 1
+                print('Correct | Points: {points}\n'.format(points = points))
+            else:
+                print('Incorrect | Points: {points}\n'.format(points = points))
+            
+            print(points/len(qandA)*100)
+        
+    results(qandA, points)
 
 subjects = [
     #Math
@@ -76,7 +81,7 @@ subjects = [
 exit = False
 score = 0
 correct_ans = 0
-quiz_question_answer = ''
+user_ans = ''
 subject_choice = ''
 
 print(subjects[0])
@@ -86,7 +91,7 @@ while (exit == False):
     print('***********************************')
     print('Type "EXIT" to leave game.')
     print('To answer the question, enter the position of the answer in the array.\nFor example if the answer array is [2, 4, 6, 8] and the answer is 4, type 2.')
-    # subject_choice = int(input('Choose your subject area: Math, Geography, Political Science, History: '))
-    # # print(subject_choice)
-    # # quiz(subjects[subject_choice] + 1, exit, score, correct_ans)
-    # # # exit = True
+    subject_choice = int(input('Choose your subject area: Math, History, Geography, Political Science: '))
+    #exit_condition(str(subject_choice, exit))
+    quiz(subjects[subject_choice - 1], exit, score, correct_ans, user_ans)
+    # exit = True

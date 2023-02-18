@@ -8,16 +8,9 @@ def results(qandA, points):
         print('You got an C. You got study a little harder.')
     elif (points/len(qandA)*100 < 70.0):
         print("It seems like you didn't study at all. Try again next time.")
-
-#this is the condition to end the game prematurely
-def exit_condition(user_in):
-    if (user_in.lower() == 'exit'):
-            print('Bye!')
-            return True
         
 def quiz(qandA, inner_exit, points, right_ans, user_in):    
     while(inner_exit == False):
-        print("At any time, you can type 'EXIT' to return to the main menu.")
         for i in range(len(qandA)):
 
             #this stores the index of the right answer plus 1
@@ -30,8 +23,9 @@ def quiz(qandA, inner_exit, points, right_ans, user_in):
             #this is the statement requiring user input
             user_in = input('{question}:\n{answer_options}\nAnswer: '.format(question = qandA[i][0], answer_options = qandA[i][2]))
             
-            #we compare the user input to the string version of right_ans
-            if (user_in.lower() == 'exit'):
+            #we determine what the user's input was
+            if (user_in.lower() == 'q'):
+                points = 0
                 print('Exiting to main menu!')
                 return
             elif (user_in == str(right_ans)):
@@ -41,6 +35,32 @@ def quiz(qandA, inner_exit, points, right_ans, user_in):
                 print('Incorrect | Points: {points}\n'.format(points = points))
         results(qandA, points)
 
+def show_score(points):
+    print("Total Points: {points}".format(points = points))
+
+def play(exit):
+        category = input('Choose your subject area: Math, History, Geography, Political Science: (Select "q" to quit) ')
+        if (category.lower() == 'q'):
+            print('Bye')
+            exit = True
+            return
+        else:
+            quiz(subjects[int(category) - 1], exit, score, correct_ans, user_ans)
+
+def instructions():
+        print('*********************************************************************************************')
+        print('**  1-You will start the game off by choosing a category.\t\t\t\t   ** \n**  2-Then you will get a quiz in that category. \t\t\t\t\t   **\n**  3-After the quiz, you will get your results.\t\t\t\t\t   **')
+        print('**  4-During the quiz, you can type "q" at anytime to leave the game.\t\t   **\n**  5-If you leave a quiz before finishing it, your score will reduced to zero (0)\t   **')
+        print('**  6-To answer a question, enter the position of the answer in the array.\t\t   **\n**  7-For example if the answer array is [2, 4, 6, 8] and the correct answer is 4, type 2. **')
+        print('*********************************************************************************************')
+
+def main_menu():
+    print('\t\t***********************************')
+    print('\t\t**                               **')
+    print("\t\t** WHO WANTS TO BE A MILLIONAIRE **")
+    print('\t\t**                               **')
+    print('\t\t***********************************')
+        
 subjects = [
     #Math
     [
@@ -61,9 +81,9 @@ subjects = [
     #Geography
     [
         ['How many countries are there in Africa?', 54, [50, 54, 56, 58]], 
-        ['What is the capital of Russia?', 4096, [100, 3000, 1500, 4096]], 
-        ['What ocen is between Africa and America?', 14973, [15100, 14500, 14973, 2]], 
-        ['What continent is at the North Pole?', 4100, [2000, 400, 5, 4100]]
+        ['What is the capital of Russia?', 'Moscow', ['Jerusalem', 'Yaounde', 'Timbuktu', 'Moscow']], 
+        ['What ocean is between Africa and America?', 'Atlantic', ['Kalahari', 'Atlantic', 'KIlimanjaro', 'Red Sea']], 
+        ['What continent is at the North Pole?', 'Antartica', ['Artic', 'Jupiter', 'Antartica', 'Wakanda']]
     ],
 
     #Political Science
@@ -75,21 +95,23 @@ subjects = [
     ]
 ]
 
-inner_exit = False
-outer_exit = False
+exit = False
 score = 0
 correct_ans = 0
 user_ans = ''
-subject_choice = ''
+category = ''
+option = 0
 
-print(subjects[0])
-while (outer_exit == False):
-    print('***********************************')
-    print("***WHO WANTS TO BE A MILLIONAIRE***")
-    print('***********************************')
-    print('Type "EXIT" to leave game.')
-    print('To answer the question, enter the position of the answer in the array.\nFor example if the answer array is [2, 4, 6, 8] and the answer is 4, type 2.')
-    subject_choice = int(input('Choose your subject area: Math, History, Geography, Political Science: '))
-    #exit_condition(str(subject_choice, exit))
-    quiz(subjects[subject_choice - 1], inner_exit, score, correct_ans, user_ans)
-    # exit = True
+while(exit == False):
+    main_menu()
+    option = int(input('Select your option: 1-Instructions 2-Score 3-Start Game 4-Exit '))
+    if(option == 4):
+        print('Bye. Come back next time.')
+        exit = True
+    elif(option == 1):
+        instructions()
+    elif(option == 2):
+        show_score(score)
+    elif(option == 3):
+        play(exit)
+    else: print("Please select one of the options above.")

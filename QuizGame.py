@@ -107,7 +107,7 @@ while(exit == False):
     main_menu()
     option = int(input('Select your option: 1-Instructions 2-Score 3-Start Game 4-Exit '))
     if(option == 4):
-        print('Bye. Come back next time.')
+        print('Goodbye. Come back again.')
         exit = True
     elif(option == 1):
         instructions()

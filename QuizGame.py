@@ -1,10 +1,8 @@
 exit = False
+
 while (exit == False):
     user_in = ''
-    user_in = input('Do you want to stay? y or n: ')
-    if (user_in == 'n' or user_in == 'N'):
+    user_in = input('What is 1 + 1?\n****************** \n1\t|\t2 \n****************** \n3\t|\t4\n******************\nAnswer: ')
+    if (user_in == str(2)):
+        print('Correct')
         exit = True
-        print('See you next time.')
-    #user_in = input('1 + 1: ')
-    #print(user_in)
-#print(1+1)
